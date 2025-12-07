@@ -33,6 +33,7 @@ async function run() {
     const AssetVerseDB = client.db("AssetVerseDB");
 
     const userCol = AssetVerseDB.collection("users");
+    const packages = AssetVerseDB.collection("packages");
 
     //CREATE
     app.post("/users", async (req, res) => {
@@ -44,6 +45,12 @@ async function run() {
     //READ
     app.get("/users", async (req, res) => {
       const cursor = userCol.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    //READ
+    app.get("/packages", async (req, res) => {
+      const cursor = packages.find();
       const result = await cursor.toArray();
       res.send(result);
     });
