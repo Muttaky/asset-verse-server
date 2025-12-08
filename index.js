@@ -36,6 +36,8 @@ async function run() {
     const assetCol = AssetVerseDB.collection("assets");
     const requestCol = AssetVerseDB.collection("requests");
     const packages = AssetVerseDB.collection("packages");
+    const affiliationCol = AssetVerseDB.collection("affiliations");
+    const assignedCol = AssetVerseDB.collection("assigneds");
 
     //CREATE
     app.post("/users", async (req, res) => {
@@ -54,6 +56,18 @@ async function run() {
     app.post("/requests", async (req, res) => {
       const newRequest = req.body;
       const result = await requestCol.insertOne(newRequest);
+      res.send(result);
+    });
+    //CREATE
+    app.post("/affiliations", async (req, res) => {
+      const newAffiliation = req.body;
+      const result = await affiliationCol.insertOne(newAffiliation);
+      res.send(result);
+    });
+    //CREATE
+    app.post("/assigneds", async (req, res) => {
+      const newAssigned = req.body;
+      const result = await assignedCol.insertOne(newAssigned);
       res.send(result);
     });
 
@@ -79,6 +93,18 @@ async function run() {
     //READ
     app.get("/packages", async (req, res) => {
       const cursor = packages.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    //READ
+    app.get("/affiliations", async (req, res) => {
+      const cursor = affiliationCol.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    //READ
+    app.get("/assigneds", async (req, res) => {
+      const cursor = assignedCol.find();
       const result = await cursor.toArray();
       res.send(result);
     });
