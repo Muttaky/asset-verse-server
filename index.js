@@ -33,6 +33,8 @@ async function run() {
     const AssetVerseDB = client.db("AssetVerseDB");
 
     const userCol = AssetVerseDB.collection("users");
+    const assetCol = AssetVerseDB.collection("assets");
+    const requestCol = AssetVerseDB.collection("requests");
     const packages = AssetVerseDB.collection("packages");
 
     //CREATE
@@ -42,12 +44,38 @@ async function run() {
       res.send(result);
     });
 
+    //CREATE
+    app.post("/assets", async (req, res) => {
+      const newAsset = req.body;
+      const result = await assetCol.insertOne(newAsset);
+      res.send(result);
+    });
+    //CREATE
+    app.post("/requests", async (req, res) => {
+      const newRequest = req.body;
+      const result = await requestCol.insertOne(newRequest);
+      res.send(result);
+    });
+
     //READ
     app.get("/users", async (req, res) => {
       const cursor = userCol.find();
       const result = await cursor.toArray();
       res.send(result);
     });
+    //READ
+    app.get("/assets", async (req, res) => {
+      const cursor = assetCol.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    //READ
+    app.get("/requests", async (req, res) => {
+      const cursor = requestCol.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //READ
     app.get("/packages", async (req, res) => {
       const cursor = packages.find();
