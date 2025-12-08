@@ -83,6 +83,30 @@ async function run() {
       res.send(result);
     });
 
+    //UPDATE
+    app.patch("/requests/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedItem = req.body;
+      const query = { _id: new ObjectId(id) };
+      const update = {
+        $set: {
+          assetId: updatedItem.assetId,
+          assetName: updatedItem.assetName,
+          assetType: updatedItem.assetType,
+          requestDate: updatedItem.requestDate,
+          companyName: updatedItem.companyName,
+          epName: updatedItem.epName,
+          epEmail: updatedItem.epEmail,
+          hrEmail: updatedItem.hrEmail,
+          status: updatedItem.status,
+          approvalDate: updatedItem.approvalDate,
+        },
+      };
+      const options = {};
+      const result = await requestCol.updateOne(query, update, options);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     console.log(
