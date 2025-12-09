@@ -141,6 +141,23 @@ async function run() {
       const result = await affiliationCol.deleteOne(query);
       res.send(result);
     });
+    // DELETE many by hrEmail + epEmail
+    app.delete("/assigneds", async (req, res) => {
+      const { hrEmail, epEmail } = req.query;
+
+      if (!hrEmail || !epEmail) {
+        return res.status(400).send({ error: "Missing parameters" });
+      }
+
+      const query = {
+        hrEmail: hrEmail.trim().toLowerCase(),
+        epEmail: epEmail.trim().toLowerCase(),
+      };
+
+      const result = await assignedCol.deleteMany(query);
+
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     console.log(
