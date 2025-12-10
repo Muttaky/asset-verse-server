@@ -79,9 +79,12 @@ async function run() {
     });
     //READ
     app.get("/assets", async (req, res) => {
-      const cursor = assetCol.find();
+      const { limit, skip } = req.query;
+      const cursor = assetCol.find().limit(Number(limit)).skip(Number(skip));
       const result = await cursor.toArray();
-      res.send(result);
+
+      const count = await assetCol.countDocuments();
+      res.send({ result, count });
     });
     //READ
     app.get("/requests", async (req, res) => {
