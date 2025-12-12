@@ -166,7 +166,12 @@ async function run() {
     });
 
     app.get("/assigneds", verifyFireBaseToken, async (req, res) => {
-      const cursor = assignedCol.find();
+      const { email } = req.query;
+      const query = {};
+      if (email) {
+        query.epEmail = email;
+      }
+      const cursor = assignedCol.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
